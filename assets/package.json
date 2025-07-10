@@ -1,0 +1,38 @@
+{
+  "name": "intranet_elixir",
+  "version": "1.0.0",
+  "description": "Assets for Intranet Elixir Phoenix application",
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "tailwindcss -i css/app.css -o ../priv/static/assets/app.css --minify",
+    "build:js": "esbuild js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --minify",
+    "watch": "npm run watch:css & npm run watch:js",
+    "watch:css": "tailwindcss -i css/app.css -o ../priv/static/assets/app.css --watch",
+    "watch:js": "esbuild js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --watch"
+  },
+  "dependencies": {
+    "phoenix": "file:../deps/phoenix",
+    "phoenix_html": "file:../deps/phoenix_html",
+    "phoenix_live_view": "file:../deps/phoenix_live_view"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.16",
+    "esbuild": "^0.19.8",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/intranet_elixir.git"
+  },
+  "keywords": [
+    "elixir",
+    "phoenix",
+    "intranet",
+    "tailwindcss"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

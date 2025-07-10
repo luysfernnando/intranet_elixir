@@ -1,0 +1,78 @@
+<%!-- Atributos do componente --%>
+<% changeset = assigns.changeset %>
+<% action = assigns.action %>
+<% user = assigns.user %>
+
+<div class="max-w-3xl mx-auto">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= if user.id, do: "Editar Usuário", else: "Novo Usuário" %>
+      </h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        <%= if user.id, do: "Edite as informações do usuário", else: "Crie um novo usuário para o sistema" %>
+      </p>
+    </div>
+    
+    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+      <.form :let={f} for={changeset} action={action}>
+        <%= if changeset.action do %>
+          <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
+            <p>Oops, algo deu errado! Por favor, verifique os erros abaixo.</p>
+          </div>
+        <% end %>
+        
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-3">
+            <%= label f, :name, "Nome", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+            <%= error_tag f, :name %>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <%= label f, :email, "Email", class: "block text-sm font-medium text-gray-700" %>
+            <%= email_input f, :email, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+            <%= error_tag f, :email %>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <%= label f, :role, "Perfil", class: "block text-sm font-medium text-gray-700" %>
+            <%= select f, :role, role_options(), 
+                  prompt: "Selecione o perfil", 
+                  class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <%= error_tag f, :role %>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <div class="flex items-center">
+              <%= checkbox f, :active, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+              <%= label f, :active, "Usuário ativo", class: "ml-2 block text-sm text-gray-900" %>
+            </div>
+            <%= error_tag f, :active %>
+          </div>
+          
+          <%= unless user.id do %>
+            <div class="sm:col-span-3">
+              <%= label f, :password, "Senha", class: "block text-sm font-medium text-gray-700" %>
+              <%= password_input f, :password, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+              <%= error_tag f, :password %>
+            </div>
+            
+            <div class="sm:col-span-3">
+              <%= label f, :password_confirmation, "Confirmar Senha", class: "block text-sm font-medium text-gray-700" %>
+              <%= password_input f, :password_confirmation, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+              <%= error_tag f, :password_confirmation %>
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <%= link "Cancelar", to: ~p"/admin/users", class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+            <%= submit "Salvar", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          </div>
+        </div>
+      </.form>
+    </div>
+  </div>
+</div>

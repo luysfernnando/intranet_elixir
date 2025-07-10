@@ -1,0 +1,69 @@
+<div class="sm:flex sm:items-center">
+  <div class="sm:flex-auto">
+    <h1 class="text-xl font-semibold text-gray-900"><%= @page.title %></h1>
+    <p class="mt-2 text-sm text-gray-700">
+      Por <%= @page.user.name %> em <%= if @page.published_at, do: Calendar.strftime(@page.published_at, "%d/%m/%Y"), else: "Não publicado" %>
+    </p>
+  </div>
+  <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+    <div class="flex space-x-2">
+      <%= link "Editar", to: ~p"/admin/pages/#{@page}/edit", class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto" %>
+      <%= link "Ver no Site", to: ~p"/pages/#{@page.slug}", class: "inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto" %>
+      <%= link "Voltar", to: ~p"/admin/pages", class: "inline-flex items-center justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 sm:w-auto" %>
+    </div>
+  </div>
+</div>
+
+<div class="mt-8">
+  <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+    <div class="px-4 py-6 sm:p-8">
+      <div class="mb-6">
+        <span class={"inline-flex px-2 py-1 text-xs font-semibold rounded-full #{case @page.status do
+          :published -> "bg-green-100 text-green-800"
+          :draft -> "bg-gray-100 text-gray-800"
+          :pending_approval -> "bg-yellow-100 text-yellow-800"
+        end}"}>
+          <%= String.capitalize(Atom.to_string(@page.status)) %>
+        </span>
+      </div>
+      
+      <%= if @page.excerpt do %>
+        <div class="mb-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Resumo</h3>
+          <p class="text-gray-600"><%= @page.excerpt %></p>
+        </div>
+      <% end %>
+      
+      <div class="mb-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Conteúdo</h3>
+        <div class="prose max-w-none">
+          <div class="whitespace-pre-line"><%= @page.content %></div>
+        </div>
+      </div>
+      
+      <%= if @page.featured_image do %>
+        <div class="mb-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Imagem Destacada</h3>
+          <img src={@page.featured_image} alt={@page.title} class="max-w-sm rounded-lg shadow-sm" />
+        </div>
+      <% end %>
+      
+      <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Slug</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @page.slug %></dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Data de Criação</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= Calendar.strftime(@page.inserted_at, "%d/%m/%Y às %H:%M") %></dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Última Atualização</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= Calendar.strftime(@page.updated_at, "%d/%m/%Y às %H:%M") %></dd>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

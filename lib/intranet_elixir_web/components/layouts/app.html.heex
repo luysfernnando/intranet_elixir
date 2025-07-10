@@ -1,0 +1,50 @@
+<header class="bg-white shadow">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
+      <div class="flex justify-start lg:w-0 lg:flex-1">
+        <%= link to: ~p"/", class: "text-xl font-bold text-gray-900" do %>
+          Intranet
+        <% end %>
+      </div>
+      
+      <nav class="hidden md:flex space-x-8">
+        <%= link "Home", to: ~p"/", class: "text-gray-500 hover:text-gray-900" %>
+        <%= link "Posts", to: ~p"/posts", class: "text-gray-500 hover:text-gray-900" %>
+        <%= link "Páginas", to: ~p"/pages", class: "text-gray-500 hover:text-gray-900" %>
+        
+        <%= if Map.get(assigns, :current_user) do %>
+          <%= if @current_user.role in [:admin, :supervisor] do %>
+            <%= link "Admin", to: ~p"/admin", class: "text-gray-500 hover:text-gray-900" %>
+          <% end %>
+        <% end %>
+      </nav>
+      
+      <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+        <%= if Map.get(assigns, :current_user) do %>
+          <div class="flex items-center space-x-4">
+            <span class="text-gray-900">Olá, <%= @current_user.name %></span>
+            <%= link "Sair", to: ~p"/logout", method: :delete, class: "text-gray-500 hover:text-gray-900" %>
+          </div>
+        <% else %>
+          <%= link "Entrar", to: ~p"/login", class: "text-gray-500 hover:text-gray-900" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+  <%= if Phoenix.Flash.get(@flash, :info) do %>
+    <div class="mb-4 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded relative">
+      <%= Phoenix.Flash.get(@flash, :info) %>
+    </div>
+  <% end %>
+  
+  <%= if Phoenix.Flash.get(@flash, :error) do %>
+    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
+      <%= Phoenix.Flash.get(@flash, :error) %>
+    </div>
+  <% end %>
+  
+  <%= @inner_content %>
+</main>

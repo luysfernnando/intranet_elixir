@@ -1,0 +1,77 @@
+<%!-- Atributos do componente --%>
+<% changeset = assigns.changeset %>
+<% action = assigns.action %>
+<% post = assigns.post %>
+<% current_user = assigns.current_user %>
+<% authors = assigns.authors %>
+
+<div class="max-w-3xl mx-auto">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= if post.id, do: "Editar Post", else: "Novo Post" %>
+      </h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        <%= if post.id, do: "Edite as informações do post", else: "Crie um novo post para o sistema" %>
+      </p>
+    </div>
+    
+    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+      <.form :let={f} for={changeset} action={action} multipart={true}>
+        <%= if changeset.action do %>
+          <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
+            <p>Oops, algo deu errado! Por favor, verifique os erros abaixo.</p>
+          </div>
+        <% end %>
+        
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-6">
+            <%= label f, :title, "Título", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :title, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+            <%= error_tag f, :title %>
+          </div>
+          
+          <div class="sm:col-span-6">
+            <%= label f, :content, "Conteúdo", class: "block text-sm font-medium text-gray-700" %>
+            <%= textarea f, :content, rows: 10, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+            <%= error_tag f, :content %>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <%= label f, :status, "Status", class: "block text-sm font-medium text-gray-700" %>
+            <%= select f, :status, [
+              {"Rascunho", :draft},
+              {"Pendente", :pending},
+              {"Publicado", :published},
+              {"Arquivado", :archived}
+            ], prompt: "Selecione o status", class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <%= error_tag f, :status %>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <%= label f, :published_at, "Data de Publicação", class: "block text-sm font-medium text-gray-700" %>
+            <%= datetime_local_input f, :published_at, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+            <%= error_tag f, :published_at %>
+          </div>
+          
+          <%= if current_user.role in [:admin, :supervisor] do %>
+            <div class="sm:col-span-6">
+              <%= label f, :user_id, "Autor", class: "block text-sm font-medium text-gray-700" %>
+              <%= select f, :user_id, Enum.map(authors, &{&1.name, &1.id}), 
+                    [prompt: "Selecione o autor", selected: post.user_id,
+                    class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"] %>
+              <%= error_tag f, :user_id %>
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <%= link "Cancelar", to: ~p"/admin/posts", class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+            <%= submit "Salvar", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          </div>
+        </div>
+      </.form>
+    </div>
+  </div>
+</div>

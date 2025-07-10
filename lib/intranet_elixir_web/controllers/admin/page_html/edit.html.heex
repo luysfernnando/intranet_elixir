@@ -1,0 +1,59 @@
+<div class="sm:flex sm:items-center">
+  <div class="sm:flex-auto">
+    <h1 class="text-xl font-semibold text-gray-900">Editar Página</h1>
+    <p class="mt-2 text-sm text-gray-700">Atualize as informações da página</p>
+  </div>
+  <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+    <%= link "Voltar", to: ~p"/admin/pages", class: "inline-flex items-center justify-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 sm:w-auto" %>
+  </div>
+</div>
+
+<div class="mt-8">
+  <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+    <div class="px-4 py-6 sm:p-8">
+      <.form :let={f} for={@changeset} action={~p"/admin/pages/#{@page}"} method="put">
+        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-4">
+            <.input field={f[:title]} label="Título" required />
+          </div>
+          
+          <div class="sm:col-span-4">
+            <.input field={f[:slug]} label="Slug" />
+            <p class="mt-2 text-sm text-gray-500">URL amigável (será gerado automaticamente se não preenchido)</p>
+          </div>
+          
+          <div class="sm:col-span-4">
+            <.input field={f[:excerpt]} label="Resumo" />
+            <p class="mt-2 text-sm text-gray-500">Breve descrição da página</p>
+          </div>
+          
+          <div class="col-span-full">
+            <.input field={f[:content]} type="textarea" label="Conteúdo" required rows="10" />
+          </div>
+          
+          <div class="sm:col-span-3">
+            <.input field={f[:status]} type="select" label="Status" options={[
+              {"Rascunho", "draft"},
+              {"Publicado", "published"},
+              {"Pendente", "pending_approval"}
+            ]} />
+          </div>
+          
+          <div class="sm:col-span-3">
+            <.input field={f[:featured_image]} label="Imagem Destacada" />
+            <p class="mt-2 text-sm text-gray-500">URL da imagem destacada</p>
+          </div>
+          
+          <div class="sm:col-span-3">
+            <.input field={f[:published_at]} type="datetime-local" label="Data de Publicação" />
+          </div>
+        </div>
+        
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <%= link "Cancelar", to: ~p"/admin/pages", class: "text-sm font-semibold leading-6 text-gray-900" %>
+          <.button type="submit">Atualizar Página</.button>
+        </div>
+      </.form>
+    </div>
+  </div>
+</div>

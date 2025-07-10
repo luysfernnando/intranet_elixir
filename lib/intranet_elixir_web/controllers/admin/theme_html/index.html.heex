@@ -1,0 +1,68 @@
+<div class="sm:flex sm:items-center">
+  <div class="sm:flex-auto">
+    <h1 class="text-xl font-semibold text-gray-900">Temas</h1>
+    <p class="mt-2 text-sm text-gray-700">Gerencie a aparência do sistema</p>
+  </div>
+  <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+    <%= link "Novo Tema", to: ~p"/admin/themes/new", class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto" %>
+  </div>
+</div>
+
+<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <%= for theme <- @themes do %>
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            <%= theme.name %>
+          </h3>
+          <%= if theme.active do %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Ativo
+            </span>
+          <% end %>
+        </div>
+        
+        <div class="mt-2 text-sm text-gray-500">
+          <%= theme.description %>
+        </div>
+        
+        <div class="mt-4 flex space-x-2">
+          <%= if theme.custom_css do %>
+            <div class="bg-gray-100 p-2 rounded text-xs text-gray-600">
+              CSS Personalizado
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="mt-4 flex justify-between">
+          <div class="text-sm text-gray-500">
+            Criado em <%= format_date(theme.inserted_at) %>
+          </div>
+          <div class="flex space-x-2">
+            <%= link "Editar", to: ~p"/admin/themes/#{theme.id}/edit", class: "text-indigo-600 hover:text-indigo-900 text-sm" %>
+            <%= unless theme.active do %>
+              <%= link "Ativar", to: ~p"/admin/themes/#{theme.id}/activate", method: :patch, class: "text-green-600 hover:text-green-900 text-sm" %>
+            <% end %>
+            <%= link "Excluir", to: ~p"/admin/themes/#{theme.id}", method: :delete, 
+                  data: [confirm: "Tem certeza que deseja excluir este tema?"], 
+                  class: "text-red-600 hover:text-red-900 text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= if @themes == [] do %>
+  <div class="text-center py-12">
+    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+    </svg>
+    <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum tema encontrado</h3>
+    <p class="mt-1 text-sm text-gray-500">Comece criando um novo tema.</p>
+    <div class="mt-6">
+      <%= link "Criar Tema", to: ~p"/admin/themes/new", class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,201 @@
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <!-- Card: Total de Posts -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Total de Posts</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @total_posts %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <%= link "Ver todos", to: ~p"/admin/posts", class: "font-medium text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Posts Publicados -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-8 w-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Posts Publicados</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @total_posts - @pending_posts %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <%= link "Gerenciar", to: ~p"/admin/posts", class: "font-medium text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Posts Pendentes -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-8 w-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Posts Pendentes</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @pending_posts %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <%= link "Revisar", to: ~p"/admin/posts", class: "font-medium text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Total de Usuários -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Total de Usuários</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @total_users %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <%= link "Gerenciar", to: ~p"/admin/users", class: "font-medium text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Total de Páginas -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Total de Páginas</dt>
+            <dd class="text-lg font-medium text-gray-900"><%= @total_pages %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <%= link "Gerenciar", to: ~p"/admin/pages", class: "font-medium text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Temas Ativos -->
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="p-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-8 w-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+          </svg>
+        </div>
+        <div class="ml-5 w-0 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">Temas Disponíveis</dt>
+            <dd class="text-lg font-medium text-gray-900">1</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-5 py-3">
+      <div class="text-sm">
+        <%= link "Personalizar", to: ~p"/admin/themes", class: "font-medium text-indigo-600 hover:text-indigo-900" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Seção de Posts Recentes -->
+<div class="mt-8">
+  <div class="bg-white shadow overflow-hidden sm:rounded-md">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Posts Recentes</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Últimos posts criados no sistema</p>
+    </div>
+    
+    <%= if @recent_posts != [] do %>
+      <ul class="divide-y divide-gray-200">
+        <%= for post <- @recent_posts do %>
+          <li>
+            <div class="px-4 py-4 flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10">
+                  <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <div class="flex items-center">
+                    <%= link to: ~p"/posts/#{post.slug}", class: "text-sm font-medium text-indigo-600 hover:text-indigo-900" do %>
+                      <%= post.title %>
+                    <% end %>
+                  </div>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <p>Por <%= post.user.name %> • <%= Calendar.strftime(post.inserted_at, "%d/%m/%Y") %></p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <span class={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium #{if post.status == :published, do: "bg-green-100 text-green-800", else: "bg-yellow-100 text-yellow-800"}"}>
+                  <%= String.capitalize(Atom.to_string(post.status)) %>
+                </span>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum post encontrado</h3>
+        <p class="mt-1 text-sm text-gray-500">Comece criando um novo post.</p>
+        <div class="mt-6">
+          <%= link "Criar Post", to: ~p"/admin/posts/new", class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

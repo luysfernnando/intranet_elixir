@@ -1,0 +1,88 @@
+# Caddyfile para a Intranet Elixir
+# Configuração para desenvolvimento local
+
+localhost:8080 {
+    reverse_proxy localhost:4000
+
+    # Logs
+    log {
+        output file /var/log/caddy/intranet_access.log
+        format json
+    }
+
+    # Compressão
+    encode gzip zstd
+
+    # Headers de segurança
+    header {
+        # Previne ataques XSS
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        
+        # HSTS (uncomment for production with SSL)
+        # Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        
+        # Remove headers que revelam informações do servidor
+        -Server
+        -X-Powered-By
+    }
+
+    # Configuração para arquivos estáticos
+    handle_path /assets/* {
+        file_server {
+            root /path/to/priv/static
+        }
+    }
+
+    # Rate limiting (uncomment for production)
+    # rate_limit {
+    #     zone static {
+    #         key {remote_host}
+    #         events 100
+    #         window 1m
+    #     }
+    # }
+}
+
+# Configuração para produção (comentada)
+# your-domain.com {
+#     reverse_proxy localhost:4000
+#     
+#     # SSL/TLS automático
+#     tls {
+#         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+#     }
+#     
+#     # Redirecionamento de www
+#     @www host www.your-domain.com
+#     redir @www https://your-domain.com{uri}
+#     
+#     # Logs
+#     log {
+#         output file /var/log/caddy/intranet_access.log
+#         format json
+#     }
+#     
+#     # Compressão
+#     encode gzip zstd
+#     
+#     # Headers de segurança
+#     header {
+#         X-Content-Type-Options nosniff
+#         X-Frame-Options DENY
+#         X-XSS-Protection "1; mode=block"
+#         Strict-Transport-Security "max-age=31536000; includeSubDomains"
+#         -Server
+#         -X-Powered-By
+#     }
+#     
+#     # Rate limiting
+#     rate_limit {
+#         zone static {
+#             key {remote_host}
+#             events 100
+#             window 1m
+#         }
+#     }
+# }
