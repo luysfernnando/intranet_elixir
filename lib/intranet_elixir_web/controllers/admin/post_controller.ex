@@ -41,7 +41,14 @@ defmodule IntranetElixirWeb.Admin.PostController do
 
   def edit(conn, %{"id" => id}) do
     post = Content.get_post!(id)
-    changeset = Content.change_post(post)
+
+    # Povoar os campos virtuais para exibição no formulário
+    post_with_strings = %{post |
+      categories_string: Enum.join(post.categories || [], ", "),
+      tags_string: Enum.join(post.tags || [], ", ")
+    }
+
+    changeset = Content.change_post(post_with_strings)
     authors = Accounts.list_users()
     render(conn, :edit, post: post, changeset: changeset, authors: authors)
   end

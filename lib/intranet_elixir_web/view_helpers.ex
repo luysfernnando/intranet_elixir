@@ -127,9 +127,17 @@ defmodule IntranetElixirWeb.ViewHelpers do
   def translate_error({msg, opts}) do
     # Opções de tradução baseadas no Ecto.Changeset.traverse_errors/2
     Enum.reduce(opts, msg, fn {key, value}, acc ->
-      String.replace(acc, "%{#{key}}", to_string(value))
+      String.replace(acc, "%{#{key}}", safe_to_string(value))
     end)
   end
 
   def translate_error(msg), do: msg
+
+  # Converte valores para string de forma segura
+  defp safe_to_string(value) when is_binary(value), do: value
+  defp safe_to_string(value) when is_atom(value), do: Atom.to_string(value)
+  defp safe_to_string(value) when is_number(value), do: to_string(value)
+  defp safe_to_string(value) when is_list(value), do: inspect(value)
+  defp safe_to_string({:array, type}), do: "array of #{type}"
+  defp safe_to_string(value), do: inspect(value)
 end

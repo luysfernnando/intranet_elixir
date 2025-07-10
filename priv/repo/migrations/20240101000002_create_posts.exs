@@ -7,6 +7,8 @@ defmodule IntranetElixir.Repo.Migrations.CreatePosts do
       add :content, :text, null: false
       add :slug, :string, null: false
       add :status, :string, null: false, default: "draft"
+      add :categories, {:array, :string}, default: []
+      add :tags, {:array, :string}, default: []
       add :featured_image, :string
       add :excerpt, :text
       add :published_at, :naive_datetime
