@@ -336,4 +336,167 @@ defmodule IntranetElixir.Content do
   def approve_page(%Page{} = page) do
     update_page(page, %{status: :published, published_at: NaiveDateTime.utc_now()})
   end
+
+  # Search functions
+
+  @doc """
+  Search posts and pages by text, categories, and tags.
+  """
+  def search_content(query, options \\ []) do
+    posts = search_posts(query, options)
+    pages = search_pages(query, options)
+
+    %{posts: posts, pages: pages}
+  end
+
+  @doc """
+  Search posts by text, categories, and tags.
+  """
+  def search_posts(query, options \\ []) do
+    only_published = Keyword.get(options, :only_published, true)
+
+    base_query =
+      if only_published do
+        from(p in Post, where: p.status == :published)
+      else
+        from(p in Post)
+      end
+
+    base_query
+    |> apply_search_filters(query)
+    |> order_by([p], desc: p.published_at)
+    |> Repo.all()
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Search pages by text, categories, and tags.
+  """
+  def search_pages(query, options \\ []) do
+    only_published = Keyword.get(options, :only_published, true)
+
+    base_query =
+      if only_published do
+        from(p in Page, where: p.status == :published)
+      else
+        from(p in Page)
+      end
+
+    base_query
+    |> apply_search_filters(query)
+    |> order_by([p], desc: p.published_at)
+    |> Repo.all()
+    |> Repo.preload(:user)
+  end
+
+  defp apply_search_filters(query, search_term) when is_binary(search_term) and search_term != "" do
+    search_term = String.downcase(search_term)
+
+    from(item in query,
+      where:
+        ilike(item.title, ^"%#{search_term}%") or
+        ilike(item.content, ^"%#{search_term}%") or
+        fragment("? && ?", item.categories, ^[search_term]) or
+        fragment("? && ?", item.tags, ^[search_term])
+    )
+  end
+
+  defp apply_search_filters(query, _), do: query
+
+  @doc """
+  Get posts by category.
+  """
+  def get_posts_by_category(category) do
+    from(p in Post,
+      where: p.status == :published and fragment("? @> ?", p.categories, ^[String.downcase(category)]),
+      order_by: [desc: p.published_at]
+    )
+    |> Repo.all()
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Get pages by category.
+  """
+  def get_pages_by_category(category) do
+    from(p in Page,
+      where: p.status == :published and fragment("? @> ?", p.categories, ^[String.downcase(category)]),
+      order_by: [desc: p.published_at]
+    )
+    |> Repo.all()
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Get posts by tag.
+  """
+  def get_posts_by_tag(tag) do
+    from(p in Post,
+      where: p.status == :published and fragment("? @> ?", p.tags, ^[String.downcase(tag)]),
+      order_by: [desc: p.published_at]
+    )
+    |> Repo.all()
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Get pages by tag.
+  """
+  def get_pages_by_tag(tag) do
+    from(p in Page,
+      where: p.status == :published and fragment("? @> ?", p.tags, ^[String.downcase(tag)]),
+      order_by: [desc: p.published_at]
+    )
+    |> Repo.all()
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+  Get all unique categories from posts and pages.
+  """
+  def get_all_categories do
+    post_categories = from(p in Post, select: p.categories, where: p.status == :published) |> Repo.all()
+    page_categories = from(p in Page, select: p.categories, where: p.status == :published) |> Repo.all()
+
+    (post_categories ++ page_categories)
+    |> List.flatten()
+    |> Enum.uniq()
+    |> Enum.sort()
+  end
+
+  @doc """
+  Get all unique tags from posts and pages.
+  """
+  def get_all_tags do
+    post_tags = from(p in Post, select: p.tags, where: p.status == :published) |> Repo.all()
+    page_tags = from(p in Page, select: p.tags, where: p.status == :published) |> Repo.all()
+
+    (post_tags ++ page_tags)
+    |> List.flatten()
+    |> Enum.uniq()
+    |> Enum.sort()
+  end
+
+  @doc """
+  Get category and tag suggestions for autocomplete.
+  """
+  def get_category_suggestions(query \\ "") do
+    query = String.downcase(query)
+
+    get_all_categories()
+    |> Enum.filter(&String.contains?(&1, query))
+    |> Enum.take(10)
+  end
+
+  @doc """
+  Get tag suggestions for autocomplete.
+  """
+  def get_tag_suggestions(query \\ "") do
+    query = String.downcase(query)
+
+    get_all_tags()
+    |> Enum.filter(&String.contains?(&1, query))
+    |> Enum.take(10)
+  end
+
 end

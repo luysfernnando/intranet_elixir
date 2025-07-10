@@ -44,6 +44,12 @@ defmodule IntranetElixirWeb.Router do
     get "/posts/:slug", PostController, :show
     get "/pages", PageController, :list
     get "/pages/:slug", PageController, :show
+
+    # Search routes
+    get "/search", SearchController, :index
+    get "/search/category/:category", SearchController, :by_category
+    get "/search/tag/:tag", SearchController, :by_tag
+    get "/api/search/suggestions", SearchController, :suggestions
   end
 
   # Auth routes (no auth pipeline needed)
