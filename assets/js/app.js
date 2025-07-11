@@ -27,6 +27,34 @@ window.liveSocket = liveSocket
 
 // Funcionalidades personalizadas para a intranet
 document.addEventListener('DOMContentLoaded', function() {
+  // Mobile menu toggle for drawer
+  const drawerToggle = document.getElementById('my-drawer-2');
+  const mobileMenuBtn = document.querySelector('.btn-square.btn-ghost.lg\\:hidden');
+
+  if (mobileMenuBtn && drawerToggle) {
+    mobileMenuBtn.addEventListener('click', function () {
+      drawerToggle.checked = !drawerToggle.checked;
+    });
+  }
+
+  // Close drawer when clicking on overlay
+  const drawerOverlay = document.querySelector('.drawer-overlay');
+  if (drawerOverlay && drawerToggle) {
+    drawerOverlay.addEventListener('click', function () {
+      drawerToggle.checked = false;
+    });
+  }
+
+  // Close drawer when clicking on menu items (mobile only)
+  const menuItems = document.querySelectorAll('.drawer-side .menu a');
+  menuItems.forEach(item => {
+    item.addEventListener('click', function () {
+      if (window.innerWidth < 1024) { // lg breakpoint
+        drawerToggle.checked = false;
+      }
+    });
+  });
+
   // Mobile menu toggle
   const mobileMenuButton = document.getElementById('mobile-menu-button')
   const mobileMenu = document.getElementById('mobile-menu')

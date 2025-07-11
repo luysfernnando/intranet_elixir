@@ -1,44 +1,74 @@
-<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Entrar na Intranet
-      </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
-        Acesse sua conta para ver conteúdo exclusivo
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row-reverse max-w-6xl w-full">
+    <div class="text-center lg:text-left lg:ml-8">
+      <div class="flex items-center justify-center lg:justify-start mb-6">
+        <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mr-4">
+          <span class="text-white font-bold text-2xl">TRE</span>
+        </div>
+        <div>
+          <h1 class="text-4xl font-bold">TRE Goiás</h1>
+          <p class="text-lg text-gray-600">Intranet</p>
+        </div>
+      </div>
+      <p class="py-6 text-lg text-gray-600">
+        Portal interno do Tribunal Regional Eleitoral de Goiás. 
+        Acesse sua conta para ver conteúdo exclusivo e utilizar os sistemas internos.
       </p>
+      <div class="text-sm text-gray-500">
+        <p><strong>Funcionamento dos protocolos:</strong></p>
+        <p>Administrativo e Judiciário: segunda a sexta, das 11h às 19h</p>
+      </div>
     </div>
     
-    <%= form_for @conn, ~p"/login", [as: :user, class: "mt-8 space-y-6"], fn f -> %>
-      <input type="hidden" name={Phoenix.HTML.Form.input_name(f, :_csrf_token)} value={get_csrf_token()}>
-      
-      <div class="rounded-md shadow-sm -space-y-px">
-        <div>
-          <%= label f, :email, "Email", class: "sr-only" %>
-          <%= email_input f, :email, 
-                required: true,
-                class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-                placeholder: "Email" %>
-        </div>
-        <div>
-          <%= label f, :password, "Senha", class: "sr-only" %>
-          <%= password_input f, :password,
-                required: true,
-                class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-                placeholder: "Senha" %>
-        </div>
-      </div>
+    <div class="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+      <div class="card-body">
+        <h2 class="card-title text-2xl mb-4 justify-center">Entrar</h2>
+        
+        <%= form_for @conn, ~p"/login", [as: :user, class: "space-y-4"], fn f -> %>
+          <input type="hidden" name={Phoenix.HTML.Form.input_name(f, :_csrf_token)} value={get_csrf_token()}>
+          
+          <div class="form-control">
+            <%= label f, :email, "Email", class: "label" %>
+            <div class="label-text">Email corporativo</div>
+            <%= email_input f, :email, 
+                  required: true,
+                  class: "input input-bordered w-full",
+                  placeholder: "seu.email@tre-go.jus.br" %>
+          </div>
+          
+          <div class="form-control">
+            <%= label f, :password, "Senha", class: "label" %>
+            <div class="label-text">Digite sua senha</div>
+            <%= password_input f, :password,
+                  required: true,
+                  class: "input input-bordered w-full",
+                  placeholder: "••••••••" %>
+          </div>
 
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <%= checkbox f, :remember_me, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
-          <%= label f, :remember_me, "Lembrar de mim", class: "ml-2 block text-sm text-gray-900" %>
+          <div class="form-control">
+            <label class="label cursor-pointer justify-start">
+              <%= checkbox f, :remember_me, class: "checkbox checkbox-primary mr-3" %>
+              <span class="label-text">Lembrar de mim neste dispositivo</span>
+            </label>
+          </div>
+
+          <div class="form-control mt-6">
+            <%= submit "Entrar", class: "btn btn-primary w-full" %>
+          </div>
+        <% end %>
+        
+        <div class="divider">Suporte</div>
+        
+        <div class="text-center">
+          <p class="text-sm text-gray-500 mb-2">
+            Problemas para acessar? Entre em contato:
+          </p>
+          <div class="flex justify-center space-x-4 text-sm">
+            <span class="text-gray-600">📞 (61) 3030-7000</span>
+            <span class="text-gray-600">📧 suporte@tre-go.jus.br</span>
+          </div>
         </div>
       </div>
-
-      <div>
-        <%= submit "Entrar", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>

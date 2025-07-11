@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full bg-white">
+<html lang="pt-BR" class="h-full" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Intranet">
-      <%= assigns[:page_title] || "Intranet" %>
+    <.live_title suffix=" · TRE Goiás">
+      <%= assigns[:page_title] || "TRE Goiás - Intranet" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>

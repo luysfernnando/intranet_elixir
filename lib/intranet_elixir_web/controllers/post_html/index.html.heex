@@ -1,62 +1,69 @@
-<div class="bg-white shadow overflow-hidden sm:rounded-md">
-  <div class="px-4 py-5 sm:px-6">
-    <h1 class="text-3xl font-bold text-gray-900">
-      Posts
-    </h1>
-    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-      Confira todas as notícias e informações publicadas.
-    </p>
+<div class="container mx-auto px-4 py-8">
+  <!-- Header -->
+  <div class="hero bg-base-200 rounded-lg mb-8">
+    <div class="hero-content text-center py-12">
+      <div>
+        <h1 class="text-4xl font-bold mb-4">Posts</h1>
+        <p class="text-lg text-gray-600">
+          Confira todas as notícias e informações publicadas.
+        </p>
+      </div>
+    </div>
   </div>
   
   <%= if @posts != [] do %>
-    <ul class="divide-y divide-gray-200">
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       <%= for post <- @posts do %>
-        <li>
-          <div class="px-4 py-4 sm:px-6">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 text-white">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                  </div>
-                </div>
-                <div class="ml-4">
-                  <div class="flex items-center">
-                    <%= link to: ~p"/posts/#{post.slug}", class: "text-lg font-medium text-indigo-600 hover:text-indigo-900" do %>
-                      <%= post.title %>
-                    <% end %>
-                  </div>
-                  <div class="flex items-center text-sm text-gray-500">
-                    <p>
-                      Por <%= post.user.name %> em <%= Calendar.strftime(post.published_at, "%d/%m/%Y") %>
-                    </p>
-                  </div>
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+          <div class="card-body">
+            <div class="flex items-center mb-4">
+              <div class="avatar placeholder">
+                <div class="bg-primary text-primary-content rounded-full w-12">
+                  <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
                 </div>
               </div>
-              <div class="flex items-center">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  <%= String.capitalize(Atom.to_string(post.status)) %>
-                </span>
+              <div class="ml-4 flex-1">
+                <h2 class="card-title text-lg">
+                  <%= link post.title, to: ~p"/posts/#{post.slug}", class: "link link-primary" %>
+                </h2>
+                <div class="flex items-center gap-2 mt-1">
+                  <div class="badge badge-outline badge-sm">
+                    <%= String.capitalize(Atom.to_string(post.status)) %>
+                  </div>
+                  <span class="text-xs text-gray-500">
+                    Por <%= post.user.name %>
+                  </span>
+                </div>
               </div>
             </div>
-            <div class="mt-2">
-              <p class="text-sm text-gray-600">
-                <%= truncate(post.content, length: 200) %>
-              </p>
+            
+            <p class="text-gray-600 text-sm mb-4">
+              <%= truncate(post.content, length: 150) %>
+            </p>
+            
+            <div class="card-actions justify-between items-center">
+              <div class="text-xs text-gray-500">
+                <%= Calendar.strftime(post.published_at, "%d/%m/%Y") %>
+              </div>
+              <%= link "Ler mais", to: ~p"/posts/#{post.slug}", class: "btn btn-primary btn-sm" %>
             </div>
           </div>
-        </li>
+        </div>
       <% end %>
-    </ul>
+    </div>
   <% else %>
-    <div class="text-center py-12">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-      </svg>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhum post disponível</h3>
-      <p class="mt-1 text-sm text-gray-500">Aguarde novos posts serem publicados.</p>
+    <div class="hero bg-base-200 rounded-lg">
+      <div class="hero-content text-center py-16">
+        <div>
+          <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <h3 class="text-xl font-medium text-gray-900 mb-2">Nenhum post disponível</h3>
+          <p class="text-gray-500">Aguarde novos posts serem publicados.</p>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>

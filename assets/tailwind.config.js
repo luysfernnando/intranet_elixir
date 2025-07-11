@@ -77,9 +77,33 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
+    require('daisyui'),
     plugin(({addVariant}) => addVariant('phx-no-feedback', ['.phx-no-feedback&', '.phx-no-feedback &'])),
     plugin(({addVariant}) => addVariant('phx-click-loading', ['.phx-click-loading&', '.phx-click-loading &'])),
     plugin(({addVariant}) => addVariant('phx-submit-loading', ['.phx-submit-loading&', '.phx-submit-loading &'])),
     plugin(({addVariant}) => addVariant('phx-change-loading', ['.phx-change-loading&', '.phx-change-loading &'])),
-  ]
+  ],
+  daisyui: {
+    themes: [
+      "light",
+      {
+        trebr: {
+          "primary": "#2563eb",
+          "secondary": "#64748b",
+          "accent": "#10b981",
+          "neutral": "#f3f4f6",
+          "base-100": "#ffffff",
+          "base-200": "#f9fafb",
+          "base-300": "#f3f4f6",
+          "base-content": "#1f2937",
+          "info": "#0ea5e9",
+          "success": "#22c55e",
+          "warning": "#f59e0b",
+          "error": "#ef4444",
+        },
+      },
+      "dark",
+    ],
+    defaultTheme: "light",
+  }
 }
